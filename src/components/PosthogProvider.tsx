@@ -2,7 +2,7 @@
 
 import posthog from "posthog-js";
 import { PostHogProvider as PHProvider } from "posthog-js/react";
-import { useEffect, useState } from "react";
+import { startTransition, useEffect, useState } from "react";
 
 export function PosthogProvider({ children }: { children: React.ReactNode }) {
   const [ready, setReady] = useState(false);
@@ -16,7 +16,7 @@ export function PosthogProvider({ children }: { children: React.ReactNode }) {
       capture_pageleave: true,
       persistence: "localStorage",
     });
-    setReady(true);
+    startTransition(() => setReady(true));
   }, []);
 
   if (!ready) return <>{children}</>;
