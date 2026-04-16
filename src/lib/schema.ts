@@ -20,3 +20,20 @@ export const users = sqliteTable("users", {
     .$defaultFn(() => new Date())
     .notNull(),
 });
+
+export const cvGenerations = sqliteTable("cv_generations", {
+  id: integer("id").primaryKey({ autoIncrement: true }),
+  clerkUserId: text("clerk_user_id"),
+  ipAddress: text("ip_address").notNull(),
+  inputData: text("input_data").notNull(),
+  generatedCv: text("generated_cv").notNull(),
+  createdAt: integer("created_at", { mode: "timestamp" })
+    .$defaultFn(() => new Date())
+    .notNull(),
+});
+
+export const ipRateLimits = sqliteTable("ip_rate_limits", {
+  ipAddress: text("ip_address").primaryKey(),
+  lastGenerationAt: integer("last_generation_at", { mode: "timestamp" }).notNull(),
+  generationCount: integer("generation_count").default(1).notNull(),
+});
