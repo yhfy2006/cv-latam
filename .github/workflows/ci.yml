@@ -1,0 +1,49 @@
+name: CI
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+    branches: [main]
+
+# Next.js 16.2.4 has a known prerender bug with /_global-error in local builds.
+# Production builds run on Vercel where the adapter handles this correctly.
+# CI runs TypeScript + lint checks only; deployment is handled by Vercel GitHub integration.
+
+jobs:
+  check:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: pnpm/action-setup@v3
+        with:
+          version: 9
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          cache: pnpm
+
+      - name: Install dependencies
+        run: pnpm install --frozen-lockfile
+
+      - name: Type check
+        run: pnpm tsc --noEmit
+        env:
+          NEXT_PUBLIC_SITE_URL: https://example.com
+          NEXT_PUBLIC_SITE_NAME: "YOM Product"
+          NEXT_PUBLIC_SITE_DESCRIPTION: "Built with yom-template"
+          NEXT_PUBLIC_CLERK_PUBLISHABLE_KEY: pk_test_bG9jYWxob3N0JA==
+          CLERK_SECRET_KEY: sk_test_placeholder
+          TURSO_DATABASE_URL: libsql://placeholder.turso.io
+          TURSO_AUTH_TOKEN: placeholder
+          STRIPE_SECRET_KEY: sk_test_placeholder
+          STRIPE_PRICE_ID: price_placeholder
+          STRIPE_WEBHOOK_SECRET: whsec_placeholder
+          NEXT_PUBLIC_POSTHOG_KEY: phc_placeholder
+          RESEND_API_KEY: re_placeholder
+          EMAIL_FROM: noreply@example.com
+
+      - name: Lint
+        run: pnpm lint
