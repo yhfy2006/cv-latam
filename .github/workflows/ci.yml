@@ -31,9 +31,9 @@ jobs:
       - name: Type check
         run: pnpm tsc --noEmit
         env:
-          NEXT_PUBLIC_SITE_URL: https://example.com
-          NEXT_PUBLIC_SITE_NAME: "YOM Product"
-          NEXT_PUBLIC_SITE_DESCRIPTION: "Built with yom-template"
+          NEXT_PUBLIC_SITE_URL: https://curriculumia.com
+          NEXT_PUBLIC_SITE_NAME: "CurriculumIA"
+          NEXT_PUBLIC_SITE_DESCRIPTION: "Crea tu CV profesional con inteligencia artificial en segundos."
           NEXT_PUBLIC_CLERK_PUBLISHABLE_KEY: pk_test_bG9jYWxob3N0JA==
           CLERK_SECRET_KEY: sk_test_placeholder
           TURSO_DATABASE_URL: libsql://placeholder.turso.io
